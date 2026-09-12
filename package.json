@@ -1,0 +1,9 @@
+{
+  "name": "campus-platform",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend install && npm --prefix frontend run dev",
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "test": "npm --prefix frontend install && npm --prefix frontend run test"
+  }
+}

@@ -1,0 +1,17 @@
+node_modules/
+.npm-cache/
+dist/
+.idea/
+*.iml
+backend/target/
+.env
+backend/release/
+verify-final/
+work/
+*.log
+backend/backups/
+.env.*
+.local/
+tmp/
+uploads/
+backend/src/main/resources/application.properties

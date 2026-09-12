@@ -1,0 +1,24 @@
+{
+  "name": "campus-platform-frontend",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "axios": "latest",
+    "element-plus": "latest",
+    "vite": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^2.5.0",
+    "jsdom": "^30.0.1",
+    "vitest": "^5.0.0"
+  }
+}

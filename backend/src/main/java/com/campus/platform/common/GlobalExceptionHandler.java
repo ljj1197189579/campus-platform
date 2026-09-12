@@ -1,0 +1,12 @@
+package com.campus.platform.common;
+import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import org.springframework.web.server.ResponseStatusException; import org.springframework.web.bind.MethodArgumentNotValidException; import java.util.*;
+@RestControllerAdvice public class GlobalExceptionHandler {
+ @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class) ResponseEntity<?> integrity(Exception e){return ResponseEntity.badRequest().body(Map.of("message","关联数据不存在或数据不合法"));}
+ @ExceptionHandler(org.springframework.dao.DataAccessException.class) ResponseEntity<?> database(Exception e){return ResponseEntity.status(503).body(Map.of("message","服务暂时不可用，请稍后重试"));}
+ @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class) ResponseEntity<?> upload(Exception e){return ResponseEntity.status(413).body(Map.of("message","照片太大，请选择5MB以内的图片"));}
+ @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class) ResponseEntity<?> json(Exception e){return ResponseEntity.badRequest().body(Map.of("message","请求数据格式错误"));}
+ @ExceptionHandler(IllegalArgumentException.class) ResponseEntity<?> bad(IllegalArgumentException e){return ResponseEntity.badRequest().body(Map.of("message",e.getMessage()));}
+ @ExceptionHandler(ResponseStatusException.class) ResponseEntity<?> status(ResponseStatusException e){return ResponseEntity.status(e.getStatusCode()).body(Map.of("message",e.getReason()==null?"请求被拒绝":e.getReason()));}
+ @ExceptionHandler(MethodArgumentNotValidException.class) ResponseEntity<?> validation(MethodArgumentNotValidException e){Map<String,String> labels=Map.ofEntries(Map.entry("title","名称"),Map.entry("description","详细描述"),Map.entry("price","价格"),Map.entry("categoryId","商品分类"),Map.entry("condition","商品成色"),Map.entry("deliveryMode","配送方式"),Map.entry("deliveryNote","交付说明"),Map.entry("images","商品照片"),Map.entry("location","地点"),Map.entry("type","信息类型"),Map.entry("rating","评分"),Map.entry("content","评价内容"),Map.entry("amount","金额"));String message=e.getBindingResult().getFieldErrors().stream().findFirst().map(x->"请检查"+labels.getOrDefault(x.getField().split("\\[")[0],"填写内容")+"是否完整、正确").orElse("请检查填写内容");return ResponseEntity.badRequest().body(Map.of("message",message));}
+ @ExceptionHandler(Exception.class) ResponseEntity<?> error(Exception e){return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message","服务器处理失败"));}
+}

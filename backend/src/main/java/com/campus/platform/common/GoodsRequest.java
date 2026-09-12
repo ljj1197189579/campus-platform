@@ -1,0 +1,3 @@
+package com.campus.platform.common;
+import jakarta.validation.constraints.*;
+public record GoodsRequest(@NotNull @Positive Long categoryId,@NotBlank @Size(max=100) String title,@NotBlank @Size(max=10000) String description,@NotNull @DecimalMin("0.00") @DecimalMax("99999999.99") @Digits(integer=8,fraction=2) java.math.BigDecimal price,@NotBlank @Size(max=30) String condition,@Pattern(regexp="SELF_PICKUP|DORM_DELIVERY") String deliveryMode,@Size(max=100) String deliveryNote,Boolean bargainingAllowed,@NotNull @Size(min=1,max=6) java.util.List<@NotBlank String> images,@DecimalMin("0.00") @DecimalMax("99999999.99") @Digits(integer=8,fraction=2) java.math.BigDecimal originalPrice,@Size(max=100) String tradeLocation) {}

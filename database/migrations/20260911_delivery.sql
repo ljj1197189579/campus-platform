@@ -1,0 +1,16 @@
+USE campus_platform;
+SET @present = (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='goods' AND column_name='delivery_mode');
+SET @statement = IF(@present=0,'ALTER TABLE goods ADD COLUMN delivery_mode ENUM(''SELF_PICKUP'',''DORM_DELIVERY'') NOT NULL DEFAULT ''SELF_PICKUP''','SELECT 1');
+PREPARE migration_statement FROM @statement;
+EXECUTE migration_statement;
+DEALLOCATE PREPARE migration_statement;
+SET @present = (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='goods' AND column_name='delivery_note');
+SET @statement = IF(@present=0,'ALTER TABLE goods ADD COLUMN delivery_note VARCHAR(100) NULL','SELECT 1');
+PREPARE migration_statement FROM @statement;
+EXECUTE migration_statement;
+DEALLOCATE PREPARE migration_statement;
+SET @present = (SELECT COUNT(*) FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='goods' AND column_name='bargaining_allowed');
+SET @statement = IF(@present=0,'ALTER TABLE goods ADD COLUMN bargaining_allowed BOOLEAN NOT NULL DEFAULT TRUE','SELECT 1');
+PREPARE migration_statement FROM @statement;
+EXECUTE migration_statement;
+DEALLOCATE PREPARE migration_statement;
